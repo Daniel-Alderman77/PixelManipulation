@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+</head>
+<body>
+    <canvas width="500" height="329"></canvas>
+
+    <input id="red" type="range"  min ="0" max="255" step="1" onchange="updateRed(this.value)">
+    <input id="green" type="range" min ="0" max="255" step="1" onchange="updateGreen(this.value)">
+    <input id="blue" type="range" min ="0" max="255" step="1" onchange="updateBlue(this.value)">
+
+    <div id="r"></div>
+    <div id="g"></div>
+    <div id="b"></div>
+
+    <script text="text/javascript">
+        var canvas = document.querySelector("canvas");
+        var ctx = canvas.getContext("2d");
+
+        function customManipulation() {
+            var imageData = ctx.getImageData(0,0, 500, 329);
+            var length = imageData.data.length / 4;
+            for (var i = 0; i < length; i++){
+                imageData.data[i * 4 + 0] = 55 - imageData.data[i * 4 + 0];    //Red
+                imageData.data[i * 4 + 1] = 200 - imageData.data[i * 4 + 1];   //Green
+                imageData.data[i * 4 + 2] = 100 - imageData.data[i * 4 + 2];   //Blue
+            }
+            ctx.putImageData(imageData, 0, 0);
+        }
+
+        var image = new Image();
+        image.onload = function() {
+            ctx.drawImage(image, 0, 0);
+            customManipulation();
+        }
+        image.src = "mount-robson.jpg";
+
+        function updateRed(slideAmount) {
+            var sliderDiv = document.getElementById("r");
+            sliderDiv.innerHTML = slideAmount;
+        }
+
+        function updateGreen(slideAmount) {
+            var sliderDiv = document.getElementById("g");
+            sliderDiv.innerHTML = slideAmount;
+        }
+
+        function updateBlue(slideAmount) {
+            var sliderDiv = document.getElementById("b");
+            sliderDiv.innerHTML = slideAmount;
+        }
+    </script>
+</body>
+</html>
